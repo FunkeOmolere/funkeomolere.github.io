@@ -1,99 +1,284 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>GRC Intelligence Dashboard</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background:#020617;
-    color:#e2e8f0;
-    padding:40px;
-}
-.subtitle {
-    color:#94a3b8;
-    margin-bottom:20px;
-    font-size:15px;
-}
-h1 {
-    color:#22c55e;
-}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Funke Omolere | GRC Professional & Tech Leader</title>
+  <style>
+    :root {
+      --purple: #7c3aed;
+      --purple-light: #a78bfa;
+      --teal: #0d9488;
+      --teal-light: #5eead4;
+      --dark: #0a0a0f;
+      --text: #f1f0ff;
+      --muted: rgba(241,240,255,0.55);
+      --card: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.09);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--dark); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
 
-.card {
-    background:#111827;
-    padding:18px;
-    border-radius:12px;
-    margin-bottom:18px;
-    border-left:4px solid #22c55e;
-}
+    nav {
+      position: fixed; top:0; width:100%; z-index:100;
+      background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 40px; display: flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo { font-size: 18px; font-weight:800; background: linear-gradient(135deg, var(--purple-light), var(--teal-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-links { display:flex; gap:32px; }
+    .nav-links a { color: var(--muted); text-decoration:none; font-size:14px; font-weight:500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
 
-.tag {
-    background:#1d4ed8;
-    padding:5px 10px;
-    border-radius:20px;
-    font-size:12px;
-}
+    .hero {
+      min-height: 100vh; display: flex; align-items:center; justify-content:center;
+      padding: 120px 40px 80px;
+      background: radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(13,148,136,0.15) 0%, transparent 60%), var(--dark);
+      position: relative; overflow:hidden;
+    }
+    .hero-inner { max-width:900px; width:100%; display:flex; gap:60px; align-items:center; flex-wrap:wrap; }
+    .hero-text { flex:1; min-width:280px; }
+    .hero-tag {
+      display:inline-flex; align-items:center; gap:8px;
+      background: rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.3);
+      color: var(--purple-light); font-size:12px; font-weight:600;
+      padding: 6px 14px; border-radius:20px; margin-bottom:24px;
+      letter-spacing:0.5px; text-transform:uppercase;
+    }
+    .hero-tag span { width:6px; height:6px; border-radius:50%; background:var(--purple-light); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    h1 { font-size: clamp(36px, 6vw, 64px); font-weight:800; line-height:1.1; letter-spacing:-1px; }
+    h1 em { font-style:normal; background: linear-gradient(135deg, var(--purple-light), var(--teal-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero-sub { margin-top:20px; font-size:17px; color:var(--muted); max-width:480px; line-height:1.8; }
+    .hero-btns { margin-top:36px; display:flex; gap:14px; flex-wrap:wrap; }
+    .btn-primary {
+      padding:14px 28px; border-radius:12px; font-size:15px; font-weight:600;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      color:#fff; text-decoration:none; border:none; cursor:pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.35);
+    }
+    .btn-primary:hover { transform:translateY(-2px); }
+    .btn-outline {
+      padding:14px 28px; border-radius:12px; font-size:15px; font-weight:600;
+      background: transparent; color:var(--text); border:1px solid var(--border); text-decoration:none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--purple-light); background: rgba(124,58,237,0.08); }
+    .hero-avatar {
+      width:220px; height:220px; border-radius:28px; flex-shrink:0;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      display:flex; align-items:center; justify-content:center;
+      font-size:64px; font-weight:800; color:rgba(255,255,255,0.9);
+      box-shadow: 0 20px 60px rgba(124,58,237,0.35); position:relative; overflow:hidden;
+    }
+    .avatar-note { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); font-size:10px; color:rgba(255,255,255,0.6); text-align:center; padding:6px; font-weight:500; }
 
-#filters button {
-    margin-right:8px;
-    padding:6px 12px;
-    background:#1d4ed8;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
+    section { padding: 100px 40px; max-width:1000px; margin:0 auto; }
+    .section-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--teal-light); margin-bottom:12px; }
+    h2 { font-size: clamp(28px, 4vw, 42px); font-weight:800; letter-spacing:-0.5px; margin-bottom:16px; }
+    h2 span { background: linear-gradient(135deg, var(--purple-light), var(--teal-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .section-intro { font-size:16px; color:var(--muted); max-width:600px; margin-bottom:52px; line-height:1.8; }
 
-#filters button:hover {
-    background:#2563eb;
-}
+    #about { border-top:1px solid var(--border); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .about-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; transition: border-color 0.2s, transform 0.2s; }
+    .about-card:hover { border-color:rgba(124,58,237,0.4); transform:translateY(-3px); }
+    .about-card .icon { font-size:28px; margin-bottom:14px; }
+    .about-card h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+    .about-card p { font-size:14px; color:var(--muted); line-height:1.7; }
 
-a {
-    color:#38bdf8;
-    text-decoration:none;
-}
+    #work { border-top:1px solid var(--border); }
+    .projects { display:grid; gap:20px; }
+    .project-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px; display:flex; gap:24px; align-items:flex-start; transition: border-color 0.2s, transform 0.2s; }
+    .project-card:hover { border-color:rgba(13,148,136,0.4); transform:translateY(-3px); }
+    .project-icon { width:52px; height:52px; border-radius:14px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:22px; }
+    .icon-purple { background:rgba(124,58,237,0.2); border:1px solid rgba(124,58,237,0.3); }
+    .icon-teal { background:rgba(13,148,136,0.2); border:1px solid rgba(13,148,136,0.3); }
+    .icon-pink { background:rgba(236,72,153,0.2); border:1px solid rgba(236,72,153,0.3); }
+    .project-info { flex:1; }
+    .project-info h3 { font-size:18px; font-weight:700; margin-bottom:8px; }
+    .project-info p { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:16px; }
+    .tags { display:flex; gap:8px; flex-wrap:wrap; }
+    .tag { font-size:11px; font-weight:600; padding:4px 10px; border-radius:8px; background:rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.25); color:var(--purple-light); }
+    .tag.teal { background:rgba(13,148,136,0.15); border-color:rgba(13,148,136,0.25); color:var(--teal-light); }
+    .project-link { margin-top:18px; display:inline-flex; align-items:center; gap:6px; color:var(--teal-light); font-size:13px; font-weight:600; text-decoration:none; transition:gap 0.2s; }
+    .project-link:hover { gap:10px; }
 
-a:hover {
-    text-decoration:underline;
-}
-</style>
+    #speaking { border-top:1px solid var(--border); }
+    .speaking-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .speaking-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; transition: border-color 0.2s, transform 0.2s; }
+    .speaking-card:hover { border-color:rgba(167,139,250,0.4); transform:translateY(-3px); }
+    .speaking-card .topic { font-size:11px; color:var(--purple-light); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
+    .speaking-card h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+    .speaking-card p { font-size:13px; color:var(--muted); line-height:1.7; }
+
+    #connect { border-top:1px solid var(--border); text-align:center; }
+    #connect .section-intro { margin-left:auto; margin-right:auto; }
+    .connect-links { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+    .connect-btn { display:flex; align-items:center; gap:10px; padding:14px 24px; border-radius:14px; font-size:14px; font-weight:600; text-decoration:none; color:#fff; background:var(--card); border:1px solid var(--border); transition: transform 0.2s, border-color 0.2s; }
+    .connect-btn:hover { transform:translateY(-3px); border-color:var(--purple-light); }
+    .connect-btn svg { width:18px; height:18px; }
+
+    footer { text-align:center; padding:40px; border-top:1px solid var(--border); color:var(--muted); font-size:13px; }
+    footer span { background: linear-gradient(135deg, var(--purple-light), var(--teal-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700; }
+
+    @media(max-width:640px) {
+      nav { padding:14px 20px; }
+      .nav-links { gap:18px; }
+      section { padding:70px 20px; }
+      .about-grid, .speaking-grid { grid-template-columns:1fr; }
+      .project-card { flex-direction:column; }
+      .hero-avatar { width:160px; height:160px; font-size:48px; }
+      .hero-inner { justify-content:center; text-align:center; }
+      .hero-btns { justify-content:center; }
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>GRC Intelligence Tracker</h1>
-<p class="subtitle">
-Monitoring cyber intelligence and frameworkupdates across IASME, NCSC, TISAX, and ENS.</P>
-<div id="filters">
-<button onclick="filterResults('all')">All</button>
-<button onclick="filterResults('Cyber Essentials')">Cyber Essentials</button>
-<button onclick="filterResults('NCSC Guidance')">NCSC</button>
-<button onclick="filterResults('TISAX')">TISAX</button>
-<button onclick="filterResults('Spain ENS')">Spain ENS</button>
+<nav>
+  <div class="nav-logo">FO</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#speaking">Speaking</a>
+    <a href="#connect">Connect</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag"><span></span> 🏆 Most Inspiring Women in the UK 2026 · Speaker · GRC Professional</div>
+      <h1>Hi, I'm <em>Funke</em><br>Omolere.</h1>
+      <p class="hero-sub">GRC professional learning to build AI powered compliance tools. Working mother of three. Proof that you can ship frameworks and school runs.</p>
+      <div class="hero-btns">
+        <a href="#work" class="btn-primary">See My Work</a>
+        <a href="#connect" class="btn-outline">Let's Connect</a>
+      </div>
+    </div>
+    <div class="hero-avatar">FO<div class="avatar-note">📸 Photo coming soon</div></div>
+  </div>
 </div>
-<p>Last updated: 2026-03-06 09:53</p>
 
-<div id="results"></div>
+<section id="about">
+  <div class="section-label">About Me</div>
+  <h2>Where <span>Compliance Meets</span> Curiosity</h2>
+  <p class="section-intro">I'm not going to pretend I have it all figured out. Here's the honest version.</p>
 
-<script>
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px; margin-bottom:40px; line-height:1.9; font-size:15px; color:rgba(241,240,255,0.8);">
+    <p style="margin-bottom:16px;">I work in <strong style="color:var(--text);">GRC — Governance, Risk and Compliance</strong> — and a while ago I got curious about whether I could actually <em>build</em> the tools I kept wishing existed. So I started. Slowly. Imperfectly. Googling things I probably should have known.</p>
+    <p style="margin-bottom:16px;">I'm new to vibe coding and GRC engineering, but I've been learning in public — building a live compliance tracker, exploring AI tools like Claude and Cursor, and figuring it out one commit at a time. The GRC Framework Update Tracker you'll see below? That's real work, built by someone who is still very much on the journey.</p>
+    <p>Outside of work, I'm a mum of three — ages 12, 9, and 3. I do school runs, bedtime stories, and compliance frameworks, sometimes all before 9am. I share that side of life on Instagram because I think it matters for people to see what working in tech can actually look like.</p>
+  </div>
 
-const data = [{"Source": "CISA News", "Title": "CISA Issues Updated RESURGE Malware Analysis Highlighting a Stealthy but Active Threat", "Link": "https://www.cisa.gov/news-events/news/cisa-issues-updated-resurge-malware-analysis-highlighting-stealthy-active-threat", "Tags": "General Cybersecurity"}, {"Source": "CISA News", "Title": "Immediate Action Required: CISA Issues Emergency Directive to Secure Cisco SD-WAN Systems", "Link": "https://www.cisa.gov/news-events/news/immediate-action-required-cisa-issues-emergency-directive-secure-cisco-sd-wan-systems", "Tags": "General Cybersecurity"}, {"Source": "CISA News", "Title": "CISA Announces New Town Halls to Engage with Stakeholders on Cyber Incident Reporting for Critical Infrastructure", "Link": "https://www.cisa.gov/news-events/news/cisa-announces-new-town-halls-engage-stakeholders-cyber-incident-reporting-critical-infrastructure", "Tags": "Operational Resilience"}, {"Source": "CISA News", "Title": "CISA\u2019s 2025 Year in Review: Driving Security and Resilience Across Critical Infrastructure", "Link": "https://www.cisa.gov/news-events/news/cisas-2025-year-review-driving-security-and-resilience-across-critical-infrastructure", "Tags": "Operational Resilience"}, {"Source": "CISA News", "Title": "CISA Releases Guide to Help Critical Infrastructure Users Adopt More Secure Communication", "Link": "https://www.cisa.gov/news-events/news/cisa-releases-guide-help-critical-infrastructure-users-adopt-more-secure-communication", "Tags": "General Cybersecurity"}, {"Source": "Krebs on Security", "Title": "Who is the Kimwolf Botmaster \u201cDort\u201d?", "Link": "https://krebsonsecurity.com/2026/02/who-is-the-kimwolf-botmaster-dort/", "Tags": "Vulnerability Management"}, {"Source": "Krebs on Security", "Title": "\u2018Starkiller\u2019 Phishing Service Proxies Real Login Pages, MFA", "Link": "https://krebsonsecurity.com/2026/02/starkiller-phishing-service-proxies-real-login-pages-mfa/", "Tags": "General Cybersecurity"}, {"Source": "Krebs on Security", "Title": "Kimwolf Botnet Swamps Anonymity Network I2P", "Link": "https://krebsonsecurity.com/2026/02/kimwolf-botnet-swamps-anonymity-network-i2p/", "Tags": "General Cybersecurity"}, {"Source": "Krebs on Security", "Title": "Patch Tuesday, February 2026 Edition", "Link": "https://krebsonsecurity.com/2026/02/patch-tuesday-february-2026-edition/", "Tags": "Vulnerability Management"}, {"Source": "Krebs on Security", "Title": "Please Don\u2019t Feed the Scattered Lapsus ShinyHunters", "Link": "https://krebsonsecurity.com/2026/02/please-dont-feed-the-scattered-lapsus-shiny-hunters/", "Tags": "General Cybersecurity"}, {"Source": "NCSC UK", "Title": "Alert: NCSC advises UK organisations to take action following conflict in the Middle East", "Link": "https://www.ncsc.gov.uk/news/ncsc-advises-uk-organisations-take-action-following-conflict-in-middle-east", "Tags": "NCSC Guidance"}, {"Source": "NCSC UK", "Title": "Exploitation of Cisco Catalyst SD-WAN", "Link": "https://www.ncsc.gov.uk/news/exploitation-cisco-catalyst-sd-wans", "Tags": "General Cybersecurity"}, {"Source": "NCSC UK", "Title": "Can you help the NCSC with the next phase of EASM research?", "Link": "https://www.ncsc.gov.uk/blog-post/help-ncsc-with-next-phase-easm-research", "Tags": "NCSC Guidance"}, {"Source": "NCSC UK", "Title": "Improving your response to vulnerability management", "Link": "https://www.ncsc.gov.uk/blog-post/improving-your-response-to-vulnerability-management", "Tags": "Spain ENS, Vulnerability Management"}, {"Source": "NCSC UK", "Title": "Cloud Security Posture Management: silver bullet or another piece in the cloud puzzle?", "Link": "https://www.ncsc.gov.uk/blog-post/cspm-silver-bullet-or-another-piece-in-the-cloud-puzzle", "Tags": "General Cybersecurity"}, {"Source": "ENX / TISAX Updates", "Title": "ZEISS\u2019s Chief Transformation Officer on Why Cybersecurity Is a Board-Level Topic - Boston Consulting Group", "Link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1SU3NCM0ZSaGZxSWtla1lxYUptd0NUMzlXeHRfUERQVklvZkJ0bWZGVTdLa0NDelA2WUhRZnVrQ3dsNU14T0I5WUkyWFJ2S0pnQk9oZFVsaDVtVXVIa0FheUNSeThGNHR1ZVZqaEo3amJzWm9qQkZESW5mUGJTdw?oc=5", "Tags": "General Cybersecurity"}, {"Source": "ENX / TISAX Updates", "Title": "Building a mature automotive cybersecurity program beyond checklists - Help Net Security", "Link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOU0t4YTgtQTRZYWpfRWVmLXR5bG05VzZaNWVoNmYyUzRtQk56bG5SZjUxeHhBdUZmNzFhcWc5NHBrbVIwQ2NJVUVDT0hvTmVqUUJ1cGdEdG9CVERfX0RlNVNHRTljZi1ITkZ1VGRSNlRsNVl6MTF1Y2hXWnBhMlhxcEV2TlpLV2Z4UDliV2FFU1E5YjROZFpKNnJvZ0pjT2hJX1Q0?oc=5", "Tags": "Vulnerability Management"}, {"Source": "ENX / TISAX Updates", "Title": "SRM Tech earns TISAX AL3 label, elevating automotive cybersecurity credentials - Telematics Wire", "Link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOdGhYdnd5M2NRaHVXTHV0czJzWl9wcHhibjlOTG1hVF9ZMF9GZU53LVVEMmRyYmh5OUhxNFJ1T3AyMWtnNDFMWG5FMlBMSFA0bGhSaU9TMnZzN0I5NVdiVUVKazMwQjh3X29Sd0s5dlg5ZkhqNm10Y1RYd01TaFlpWEYwcmdzZlh4bGktdW50X2FPV190bGtOU2M5RHVDZk9ORmQ5T0ZCQmc?oc=5", "Tags": "TISAX"}, {"Source": "ENX / TISAX Updates", "Title": "SRM Tech Achieves TISAX Assessment Level (AL3) Label Strengthening Its Automotive Cybersecurity Standards - TheWire.in", "Link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPTnZBZE1FcDZrOURpQXI2c3Q3aERQNWszYWZMc3Y3T19uX2FnbC00b0xUNkktYnJEdTVDT3M4eGRraVh5dXZVZWR5eEVWSTNTQ0RpOW9fVF9vNzh6R0Z1UFd5LU9IQVp1aFZMZEQ4eWpRdUQ3OFNQbU9pMENBUW5PaEZZNkZEcXRELWRKU09LQmtucXpwdXA2RWFiaG5IdUladmpldjR1QUtaSDB3UHpVNWFodlhkMGduMFpEWlRRZEJub2VtU2doN0Jjbm5Xa0FlMkZFV1FhMkRfd9IB3wFBVV95cUxPX2pMOHFDWmdRQTFUU0pncllNcXVwWWU2Sk9YMjFjVm9RaHE3UDV1dkhrbXdOaXdxUi1taVlpY0VEeFVnWWlhUHhmaUNvNWNMNXhxNlVIZm1pdHBSVWFud1F0dXNTQzZKcDRSdUZDVHduZDQ0N1E2RHREQjc0ZFVHRENPNk9jVEw5eWZWZ1l0VTB3VE5xdUlMR2F0MnlCWWZ3NzJKcTBzUGVZdmFRXzdnd0F3MG41WnhNNklkb2xHVXl2dTVDcEtzYkhhQk9aNFY1WE5FWjg4V04tajZteldv?oc=5", "Tags": "TISAX"}, {"Source": "ENX / TISAX Updates", "Title": "DMS provider Pinewood beefs up cyber security - motortrader.com", "Link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQclZjNUZ3Nm1SODlQR3g0WDZiczJ2U1JwTXBlZzVrbWVPUFFOY2hreUhCRDgyNlhUd0Q4T2ctY0p6bWlDMC1xZU5ocU1MQ2phVk5JaDVMNXF4cDl3dng4RmYxY1Iyb3YwN0ZON0d1UE1ud1VESWZCSGlUbUI1VVlBUmJtRkw2UEJzUDJGSE1KXzNyRk1LZnhxTWxWSmdBYTlfcW90NzZYSVNsZmpleDFSUjJEM0pvUQ?oc=5", "Tags": "General Cybersecurity"}, {"Source": "Spain ENS Updates", "Title": "The Spanish National Security Framework (ENS) is Now Part of the Qualys Enterprise TruRisk\u2122 Platform - Qualys", "Link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOREpjQy1FUDJyeFFBYTVJcG90SkY2RGdocllVd0lsckpCbGpZNW40ZDlsYXRaQzFQTmc2dHRwYkhLS29kaXFiZkNNWXB5Qjh6UFhjVDJaR3AycV9SUnFPeW1Vb05JZERvUGZ2d25odmFpWTVhTHhlR25BQ0xWdkpoXzZwZENENERBR2lMM2pTUDRrakJvRWJaRndQaHExZC1FT3Zaek9jTW40WkFSOENxaVA0MVFwWjhaYTExQlpRWmdIU1BJUWdaU3FVVXpZaHBzSUR4bmVIbHQ0bGNMVnc?oc=5", "Tags": "TISAX, Spain ENS"}, {"Source": "Spain ENS Updates", "Title": "Telef\u00f3nica to aid hyperscalers on infra, service compliance in Spain \u2014 report - TelcoTitans.com", "Link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOSmpuNTd0aXkteHRhdzMxa0EtQW9FeWxWX0lsVVpZMmlJcGF2SE9fd0ZaNmFPMmllbXJnczAySTg4N3M2VU4zYTFKMTRSRTNkc2I0MWc0azZVNlVKSnd1Vng1NnJoRTJIcGFwcGNfbUROQWtoYzlIUElwdUFaejBGejZoV2J0NW1UUjRrNzk1czBzcVdaVE9VNGd1X2dfcnlZdUlBZEdqdzdScWtOY3NjanhYQjU3RUpwMi1HQkFVT2NXQnhpbEdZREQwVlY?oc=5", "Tags": "General Cybersecurity"}, {"Source": "Spain ENS Updates", "Title": "AWS expands Spain\u2019s ENS High certification across 174 services - Amazon Web Services (AWS)", "Link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPbjRRcGZsTWFnMVZ1QWlSUWdCbjQ5cWJCVWd0V191RkhKYkNuak11X3NOdFNyeXphQUsxeWdIbHh6OXIzMW1NR1RwWHF4LXJNVDFJT2RCV3d1NTZrc2t6YWRnY2Q3NS1tRDVrU0tMSmt2U1FieG5nYXZpTTA4NEpvNkFyVnpqODdHeUV5S1oyRzJlSXc0bDJMQWwxRHY4VmFzUVE?oc=5", "Tags": "Spain ENS"}, {"Source": "Spain ENS Updates", "Title": "Yubico Announces Availability of the YubiKey 5 CCN Series, First Hardware Security Key to Secure 'ENS Alta' Rating in Spanish National Cryptologic Center (CCN)'s CPSTIC Catalogue - Business Wire", "Link": "https://news.google.com/rss/articles/CBMizgJBVV95cUxPcXZPQ0Z6UFdteWFnNXF1TENVZ0RoanhzM1dqclpPNUhmUEtNakZmb0RkM3hqanFXVTMzZ2k5blNlNGJRUVJjMjktMm9NSmNScG5oMGt5OFNDNEprNHJHR1dzczFnTFAxa2FULUZXVVpCMzBBTmZTdHVyaHpJT2dtdVoxMTJtRmlsTDM3OXFoa3lMVkdISjIyTXNiZ1d6bWp5ZFJQYTdiLWwzdHBvOF93ZzB1eUJNYmRYLTIzQ1pTMUJta2MwYTZNVFdyeDZfVWRsRUh2dFRBUENJZlBDZXI3RWpwSUh5UURtbVpkcU9feWYyTXlCYVAxNG1YXzg1Ml9ocDZ4bndJU0txc1hfLVpNUDFjcHRJNmNOUm53eDE5U3FIY2pBWVcyN3lkX2M2RW5qTldCSlZlQmFjN2RwU25fLXY4MUNfQ0dkNC1YeDBB?oc=5", "Tags": "Spain ENS"}, {"Source": "Spain ENS Updates", "Title": "Spain\u2019s NIS2 Cybersecurity Overhaul: Prepare for the New Cybersecurity Framework - Osborne Clarke", "Link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQUmZRcXlNaGJ4UzZ1Z2l5WFhEM1hkX1hQVG5pOHBST1NNLVNHMGRRbU9SRm1sclVGZXFKNVBVMy1reG1jQ2dOZjZmODVnWTlodDNQQV9SeVRIMnFDWEpCU09lWXhUWUI4UjFIR0Y4cV9tU2FRTU93QWI2WnQzVnZEZDBQZ2lNSlhGZ3dORHJxWnNVX0ZQWVM4WGRPVUZRX2FWcEkwNkdLbjJjLUFTNmc?oc=5", "Tags": "General Cybersecurity"}, {"Source": "NVD CVE Feed", "Title": "CVE-2017-20187", "Link": "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-20187", "Tags": "Vulnerability Management"}, {"Source": "NVD CVE Feed", "Title": "CVE-2017-7252", "Link": "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-7252", "Tags": "Vulnerability Management"}, {"Source": "NVD CVE Feed", "Title": "CVE-2018-25092", "Link": "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25092", "Tags": "Vulnerability Management"}, {"Source": "NVD CVE Feed", "Title": "CVE-2018-25093", "Link": "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25093", "Tags": "Vulnerability Management"}, {"Source": "NVD CVE Feed", "Title": "CVE-2020-28407", "Link": "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28407", "Tags": "Vulnerability Management"}];
+  <div class="about-grid">
+    <div class="about-card"><div class="icon">🛡️</div><h3>GRC Professional</h3><p>My background is in governance, risk and compliance. I'm now exploring how to make GRC work smarter through automation, better tooling, and systematic thinking.</p></div>
+    <div class="about-card"><div class="icon">🤖</div><h3>Learning to Build with AI</h3><p>I'm new to this and I'm okay saying that. I'm exploring Cursor AI and Claude Code SDK to see how far curiosity and persistence can take a non traditional builder.</p></div>
+    <div class="about-card"><div class="icon">👩🏾‍💻</div><h3>Working Mum in Tech</h3><p>Mother of three (12, 9 and 3). I navigate risk frameworks and bedtime routines and I document the unfiltered reality on Instagram at @cybershiftwithfunke.</p></div>
+    <div class="about-card"><div class="icon">🎤</div><h3>Speaking Up</h3><p>I spoke at BSides London 2025 and was named one of the Most Inspiring Women in the UK 2026. Not because I have all the answers but because I kept showing up.</p></div>
+  </div>
+</section>
 
-let htmlContent = "";
-
-data.forEach(item => {
-    htmlContent += `
-        <div class="card">
-        <h3><a href="${item.Link}" target="_blank">${item.Title}</a></h3>
-        <p><b>Source:</b> ${item.Source}</p>
-        <p><span class="tag">${item.Tags}</span></p>
+<section id="work">
+  <div class="section-label">Featured Work</div>
+  <h2>Things I've <span>Built</span></h2>
+  <p class="section-intro">A selection of projects at the intersection of compliance and modern tooling. Still learning, still building.</p>
+  <div class="projects">
+    <div class="project-card">
+      <div class="project-icon icon-teal">📊</div>
+      <div class="project-info">
+        <h3>GRC Framework Update Tracker</h3>
+        <p>A live compliance monitoring tool that tracks updates to GRC frameworks and maps them to organisational controls. Built with a configuration driven approach for extensibility and scale.</p>
+        <div class="tags"><span class="tag teal">GRC</span><span class="tag teal">Compliance Automation</span><span class="tag teal">JavaScript</span><span class="tag teal">GitHub Pages</span></div>
+        <a class="project-link" href="https://funkeomolere.github.io/grc-framework-update-tracker/" target="_blank">View Live Project →</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon icon-purple">🤖</div>
+      <div class="project-info">
+        <h3>AI Assisted Compliance Monitoring</h3>
+        <p>Exploring how Claude Code SDK and Cursor AI can automate the detection and classification of regulatory changes. Reducing manual review cycles and improving coverage. Very much a work in progress.</p>
+        <div class="tags"><span class="tag">AI and LLMs</span><span class="tag">Claude Code SDK</span><span class="tag">Cursor AI</span><span class="tag">Regulatory Tech</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon icon-pink">📱</div>
+      <div class="project-info">
+        <h3>CyberShift with Funke</h3>
+        <p>An Instagram brand documenting the real intersection of motherhood, tech careers, and personal growth — building authentic community for working mothers in cybersecurity and GRC.</p>
+        <div class="tags">
+          <span class="tag" style="background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.3);color:#f9a8d4;">Personal Brand</span>
+          <span class="tag" style="background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.3);color:#f9a8d4;">Content Creation</span>
+          <span class="tag" style="background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.3);color:#f9a8d4;">Community</span>
         </div>
-    `;
-})
+        <a class="project-link" href="https://www.instagram.com/cybershiftwithfunke" target="_blank">Follow the Journey →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-document.getElementById("results").innerHTML = htmlContent;
+<section id="speaking">
+  <div class="section-label">Speaking and Thought Leadership</div>
+  <h2>Topics I <span>Talk About</span></h2>
+  <p class="section-intro">I bring a practitioner's lens to GRC, AI, and what it actually means to thrive in tech as a working mother.</p>
+  <div class="speaking-grid">
+    <div class="speaking-card"><div class="topic">GRC and Compliance</div><h3>The Future of Compliance Engineering</h3><p>How AI and automation are reshaping GRC — from manual spreadsheets to intelligent, configuration driven monitoring systems.</p></div>
+    <div class="speaking-card"><div class="topic">AI and Technology</div><h3>AI Tools for the Modern GRC Professional</h3><p>A practical guide to using LLMs, code assistants, and no code tools to accelerate compliance work without sacrificing rigour.</p></div>
+    <div class="speaking-card"><div class="topic">Women in Tech</div><h3>Showing Up Whole: Motherhood and Cybersecurity</h3><p>An honest conversation about navigating a demanding tech career while raising children and why visibility matters.</p></div>
+    <div class="speaking-card"><div class="topic">Personal Branding</div><h3>Building Your Brand Without Losing Yourself</h3><p>How to create an authentic online presence as a technical professional beyond the buzzwords and polished highlight reels.</p></div>
+  </div>
 
-</script>
+  <div style="margin-top:32px; padding:28px; background:linear-gradient(135deg,rgba(234,179,8,0.12),rgba(124,58,237,0.12)); border:1px solid rgba(234,179,8,0.3); border-radius:20px; display:flex; align-items:center; gap:16px;">
+    <div style="font-size:36px; flex-shrink:0;">🏆</div>
+    <div>
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#fcd34d; margin-bottom:4px;">Award</div>
+      <div style="font-size:16px; font-weight:700; color:var(--text);">One of the Most Inspiring Women in the UK 2026</div>
+      <div style="font-size:13px; color:var(--muted); margin-top:4px;">Recognised for contributions to cybersecurity, GRC engineering, and championing women in tech.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; padding:28px; background:var(--card); border:1px solid rgba(13,148,136,0.3); border-radius:20px; display:flex; align-items:center; gap:16px;">
+    <div style="font-size:36px; flex-shrink:0;">🎬</div>
+    <div style="flex:1;">
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--teal-light); margin-bottom:4px;">Conference Talk · BSides London 2025</div>
+      <div style="font-size:16px; font-weight:700; color:var(--text);">Breaking In, Standing Tall: A Rookie's Guide To Confidence In GRC</div>
+      <div style="font-size:13px; color:var(--muted); margin-top:4px;">Presented at one of the UK's leading community driven cybersecurity conferences.</div>
+      <a href="https://youtu.be/X0VUGHvtpDA" target="_blank" style="display:inline-flex; align-items:center; gap:6px; margin-top:12px; color:var(--teal-light); font-size:13px; font-weight:600; text-decoration:none;">▶ Watch the Talk →</a>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; padding:28px; background:var(--card); border:1px solid rgba(124,58,237,0.3); border-radius:20px;">
+    <p style="font-size:15px; color:var(--muted);">🎤 <strong style="color:var(--text);">Available for speaking, panels, and podcasts.</strong> I speak on GRC engineering, AI in compliance, and women thriving in cybersecurity. <a href="#connect" style="color:var(--purple-light); text-decoration:none; font-weight:600;">Get in touch →</a></p>
+  </div>
+</section>
+
+<section id="connect">
+  <div class="section-label">Let's Connect</div>
+  <h2>Find Me <span>Here</span></h2>
+  <p class="section-intro">Whether you want to collaborate, have me speak, or just talk GRC and AI my inbox is open.</p>
+  <div class="connect-links">
+    <a class="connect-btn" href="https://www.linkedin.com/in/funkeomolere" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+    <a class="connect-btn" href="https://www.instagram.com/cybershiftwithfunke" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      Instagram
+    </a>
+    <a class="connect-btn" href="https://funkeomolere.github.io/grc-framework-update-tracker/" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GRC Project
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>Built with 💜 by <span>Funke Omolere</span> · GRC Professional · Working Mum · Tech Advocate</p>
+</footer>
 
 </body>
 </html>
-
